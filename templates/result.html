@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Result</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;600;800&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: Poppins;
+            background: linear-gradient(135deg,#f5f7fa,#c3cfe2);
+            padding: 40px;
+        }
+        .card {
+            background: white;
+            padding: 40px;
+            border-radius: 20px;
+        }
+        .result {
+            background: linear-gradient(135deg,#667eea,#764ba2);
+            color: white;
+            padding: 40px;
+            border-radius: 20px;
+            margin-bottom: 30px;
+        }
+        img {
+            max-width: 300px;
+            border-radius: 15px;
+        }
+        a {
+            display: inline-block;
+            margin-top: 20px;
+            background: #667eea;
+            color: white;
+            padding: 15px 40px;
+            border-radius: 30px;
+            text-decoration: none;
+            font-weight: 700;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="card">
+        <img src="{{ url_for('static', filename='uploads/' + image) }}">
+        <div class="result">
+            <h1>{{ plant }}</h1>
+            <h2>Confidence: {{ confidence }}%</h2>
+        </div>
+
+        {% if info %}
+            {% for k,v in info.items() %}
+                <h3>{{ k.replace("_"," ").title() }}</h3>
+                <p>{{ v }}</p>
+            {% endfor %}
+            <a href="/download/{{ plant }}">📄 Download Report</a>
+        {% else %}
+            <p>⚠️ Information not available</p>
+        {% endif %}
+    </div>
+</body>
+</html>
