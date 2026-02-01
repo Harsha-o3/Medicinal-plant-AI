@@ -35,16 +35,23 @@ Medicinal-plant-AI/
 
 
 # ⚙️ Installation & Usage
-- Clone the repository
+1.Clone the repository
+ ```bash
 git clone https://github.com/Harsha-o3/Medicinal-plant-AI.git
 cd Medicinal-plant-AI
-- Install dependencies
+```
+2.Install dependencies
+```bash
 pip install -r requirements.txt
-- Run the Flask app
+```
+3.Run the Flask app
+```bash
 python app.py
-- Open in browser
+```
+4.Open in browser
+```
 Navigate to http://127.0.0.1:5000 to use the web app.
-
+```
 # 📊 Model Details
 - Architecture: Convolutional Neural Network (CNN)
 - Dataset: Medicinal plant images (custom dataset)
