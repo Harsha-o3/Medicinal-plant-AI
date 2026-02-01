@@ -19,6 +19,7 @@ This project leverages deep learning (CNN) models for plant classification and i
 - Deployment: Render
 
 # 📂 Project Structure
+```bash
 Medicinal-plant-AI/
 │── app.py                # Main Flask application
 │── classification.ipynb  # Jupyter Notebook for training & evaluation
@@ -30,7 +31,7 @@ Medicinal-plant-AI/
 │── static/uploads/       # Uploaded images
 │── confusion_matrix.png  # Model evaluation visualization
 │── README.md             # Project documentation
-
+```
 
 
 # ⚙️ Installation & Usage
