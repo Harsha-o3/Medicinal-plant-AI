@@ -1,60 +1,395 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>Result</title>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;600;800&display=swap" rel="stylesheet">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Analysis Result | Botanical AI Framework</title>
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700;800&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <!-- Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
     <style>
+        :root {
+            --primary-green: #2d5a27;
+            --secondary-green: #4a7c44;
+            --accent-green: #1e3d1a;
+            --soft-green: #8baa79;
+            --bg-leaf: #f8faf7;
+            --text-main: #2c3e2e;
+            --text-light: #5c725e;
+            --white: #ffffff;
+            --soft-shadow: 0 10px 40px rgba(45, 90, 39, 0.1);
+            --border-round: 20px;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
         body {
-            font-family: Poppins;
-            background: linear-gradient(135deg,#f5f7fa,#c3cfe2);
-            padding: 40px;
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-leaf);
+            color: var(--text-main);
+            line-height: 1.6;
+            padding: 80px 20px 40px;
         }
-        .card {
-            background: white;
-            padding: 40px;
-            border-radius: 20px;
-        }
-        .result {
-            background: linear-gradient(135deg,#667eea,#764ba2);
-            color: white;
-            padding: 40px;
-            border-radius: 20px;
-            margin-bottom: 30px;
-        }
-        img {
-            max-width: 300px;
-            border-radius: 15px;
-        }
-        a {
-            display: inline-block;
-            margin-top: 20px;
-            background: #667eea;
-            color: white;
+
+        /* Nav Header */
+        .nav-header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            z-index: 1000;
             padding: 15px 40px;
-            border-radius: 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 20px rgba(0,0,0,0.05);
+        }
+
+        .logo {
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 800;
+            color: var(--primary-green);
             text-decoration: none;
-            font-weight: 700;
+            font-size: 1.2rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 30px;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: var(--text-light);
+            font-weight: 600;
+            font-size: 0.9rem;
+            transition: color 0.2s ease;
+        }
+
+        .nav-links a:hover, .nav-links a.active {
+            color: var(--primary-green);
+        }
+
+        .container {
+            max-width: 1100px;
+            width: 100%;
+            margin: 0 auto;
+        }
+
+        /* 1. Header */
+        .result-header {
+            text-align: center;
+            margin-bottom: 50px;
+        }
+
+        .result-header h1 {
+            font-family: 'Montserrat', sans-serif;
+            color: var(--primary-green);
+            font-size: 2.2rem;
+            margin-bottom: 10px;
+        }
+
+        /* 2. Main Result Card */
+        .result-card {
+            background: var(--white);
+            border-radius: var(--border-round);
+            box-shadow: var(--soft-shadow);
+            overflow: hidden;
+            display: grid;
+            grid-template-columns: 1fr 1.5fr;
+            margin-bottom: 40px;
+        }
+
+        /* Image Side */
+        .specimen-view {
+            padding: 40px;
+            background-color: #f1f7f2;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+        }
+
+        .specimen-img {
+            width: 100%;
+            border-radius: 15px;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.1);
+            border: 5px solid var(--white);
+            margin-bottom: 25px;
+            transition: transform 0.3s ease;
+        }
+
+        .specimen-img:hover {
+            transform: scale(1.02);
+        }
+
+        .confidence-badge {
+            background: var(--primary-green);
+            color: var(--white);
+            padding: 10px 25px;
+            border-radius: 50px;
+            font-weight: 600;
+            font-size: 0.95rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        /* Info Side */
+        .info-pane {
+            padding: 50px;
+        }
+
+        .plant-name h2 {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 2.8rem;
+            color: var(--primary-green);
+            margin-bottom: 5px;
+            line-height: 1.1;
+        }
+
+        .scientific-name {
+            font-size: 1.3rem;
+            font-style: italic;
+            color: var(--soft-green);
+            margin-bottom: 30px;
+            display: block;
+        }
+
+        .info-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 20px;
+        }
+
+        .monograph-sidebar {
+            background-color: #f1f7f2;
+            border-radius: 15px;
+            padding: 25px;
+            margin-top: 30px;
+            border-left: 4px solid var(--primary-green);
+        }
+
+        .monograph-sidebar h3 {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 1.1rem;
+            color: var(--primary-green);
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .sidebar-item {
+            margin-bottom: 12px;
+            font-size: 0.9rem;
+        }
+
+        .sidebar-item strong {
+            color: var(--secondary-green);
+            display: block;
+            margin-bottom: 2px;
+            text-transform: uppercase;
+            font-size: 0.75rem;
+            letter-spacing: 0.5px;
+        }
+
+        .sidebar-item span {
+            color: var(--text-main);
+        }
+
+        .info-item {
+            display: flex; gap: 20px; align-items: flex-start;
+        }
+
+        .info-item i {
+            width: 45px; height: 45px; line-height: 45px;
+            background-color: #f1f7f2; color: var(--primary-green);
+            border-radius: 12px; text-align: center;
+            font-size: 1.2rem; flex-shrink: 0;
+        }
+
+        .info-text h4 {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 1rem; color: var(--secondary-green);
+            margin-bottom: 5px; text-transform: uppercase; letter-spacing: 1px;
+        }
+
+        .info-text p {
+            color: var(--text-light);
+            font-size: 1rem; line-height: 1.5;
+        }
+
+        /* 3. Actions */
+        .actions {
+            display: flex; gap: 20px; justify-content: center; margin-top: 20px;
+        }
+
+        .btn {
+            padding: 15px 35px; border-radius: 50px; text-decoration: none;
+            font-weight: 600; transition: all 0.3s ease; display: flex;
+            align-items: center; gap: 10px; border: none; cursor: pointer;
+            font-family: 'Inter', sans-serif;
+        }
+
+        .btn-new {
+            background-color: var(--white); color: var(--primary-green);
+            border: 2px solid var(--primary-green);
+        }
+
+        .btn-new:hover { background-color: var(--primary-green); color: var(--white); }
+
+        .btn-report { background-color: var(--primary-green); color: var(--white); }
+
+        .btn-report:hover {
+            background-color: var(--secondary-green);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(45, 90, 39, 0.2);
+        }
+
+        /* Footer */
+        .footer {
+            margin-top: 60px; text-align: center; color: var(--text-light);
+            font-size: 0.9rem; opacity: 0.7; padding-bottom: 20px;
+        }
+
+        /* Animations */
+        .fade-in { animation: fadeIn 0.8s ease-out forwards; }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(15px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @media (max-width: 900px) {
+            .result-card { grid-template-columns: 1fr; }
+            .specimen-view { padding: 30px; }
+            .info-pane { padding: 35px 25px; }
+            .plant-name h2 { font-size: 2.2rem; }
         }
     </style>
 </head>
-
 <body>
-    <div class="card">
-        <img src="{{ url_for('static', filename='uploads/' + image) }}">
-        <div class="result">
-            <h1>{{ plant }}</h1>
-            <h2>Confidence: {{ confidence }}%</h2>
+
+    <nav class="nav-header">
+        <a href="/" class="logo">
+            <i class="fas fa-microscope"></i> Botanical AI
+        </a>
+        <div class="nav-links">
+            <a href="/">Recognition Portal</a>
+            <a href="/dashboard">Research Dashboard</a>
+            <a href="/history">Analysis Archive</a>
+        </div>
+    </nav>
+
+    <div class="container fade-in">
+        <header class="result-header">
+            <h1 class="fade-in">Diagnostic Analysis Complete</h1>
+            <p class="fade-in" style="animation-delay: 0.1s; color: var(--text-light);">Specimen identified via AI Recognition Framework</p>
+        </header>
+
+        <div class="result-card fade-in" style="animation-delay: 0.2s;">
+            <!-- Left Side: Visuals -->
+            <div class="specimen-view">
+                <img class="specimen-img" src="{{ url_for('static', filename='uploads/' + image) }}" alt="{{ plant }}">
+                <div class="confidence-badge">
+                    <i class="fas fa-check-circle"></i>
+                    Accuracy: {{ "%.1f"|format(confidence) }}%
+                </div>
+            </div>
+
+            <!-- Right Side: Data -->
+            <div class="info-pane">
+                <div class="plant-name">
+                    <h2>{{ plant }}</h2>
+                    <span class="scientific-name"><em>{{ info.scientific_name if info else 'Scientific name unavailable' }}</em></span>
+                </div>
+
+                <div class="info-grid">
+                    <div class="info-item">
+                        <i class="fas fa-leaf"></i>
+                        <div class="info-text">
+                            <h4>Medicinal Uses</h4>
+                            <p>{{ info.medicinal_use if info else 'No medical data found.' }}</p>
+                        </div>
+                    </div>
+
+                    <div class="info-item">
+                        <i class="fas fa-capsules"></i>
+                        <div class="info-text">
+                            <h4>Pharmacological Properties</h4>
+                            <p>{{ info.pharmacological_properties if info else 'Information not available.' }}</p>
+                        </div>
+                    </div>
+
+                    <div class="info-item">
+                        <i class="fas fa-flask"></i>
+                        <div class="info-text">
+                            <h4>Preparation Method</h4>
+                            <p>{{ info.preparation_method if info else 'Preparation data pending.' }}</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="monograph-sidebar">
+                    <h3><i class="fas fa-book-medical"></i> Botanical Monograph</h3>
+                    <div class="sidebar-grid" style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
+                        <div class="sidebar-item">
+                            <strong>Plant Family</strong>
+                            <span>{{ info.family if info else 'N/A' }}</span>
+                        </div>
+                        <div class="sidebar-item">
+                            <strong>Region of Origin</strong>
+                            <span>{{ info.origin if info else 'N/A' }}</span>
+                        </div>
+                        <div class="sidebar-item">
+                            <strong>Parts Used</strong>
+                            <span>{{ info.parts_used if info else 'N/A' }}</span>
+                        </div>
+                        <div class="sidebar-item">
+                            <strong>Diseases Treated</strong>
+                            <span>{{ info.diseases_treated if info else 'N/A' }}</span>
+                        </div>
+                    </div>
+                    <div class="sidebar-item" style="margin-top: 10px; border-top: 1px solid rgba(45, 90, 39, 0.1); padding-top: 10px;">
+                        <strong>Phytochemical Compounds</strong>
+                        <span style="font-size: 0.85rem; line-height: 1.4; display: block;">{{ info.phytochemical_compounds if info else 'N/A' }}</span>
+                    </div>
+                    <div class="sidebar-item" style="margin-top: 15px; padding: 12px; background: rgba(255, 107, 107, 0.05); border-radius: 10px; border: 1px dashed rgba(255, 107, 107, 0.3);">
+                        <strong style="color: #d63031;"><i class="fas fa-exclamation-triangle"></i> Safety Precautions</strong>
+                        <span style="font-size: 0.85rem; color: #b71c1c; font-weight: 500;">{{ info.precautions if info else 'Consult a healthcare professional before use.' }}</span>
+                    </div>
+                </div>
+            </div>
         </div>
 
-        {% if info %}
-            {% for k,v in info.items() %}
-                <h3>{{ k.replace("_"," ").title() }}</h3>
-                <p>{{ v }}</p>
-            {% endfor %}
-            <a href="/download/{{ plant }}">📄 Download Report</a>
-        {% else %}
-            <p>⚠️ Information not available</p>
-        {% endif %}
+        <div class="actions fade-in" style="animation-delay: 0.4s;">
+            <a href="/" class="btn btn-new">
+                <i class="fas fa-plus"></i> New Specimen
+            </a>
+            <a href="/history" class="btn btn-new">
+                <i class="fas fa-history"></i> View Archive
+            </a>
+            <a href="{{ url_for('download_pdf', plant=plant) }}" class="btn btn-report">
+                <i class="fas fa-file-pdf"></i> Download Report
+            </a>
+        </div>
+
+        <footer class="footer">
+            <p>AI in Healthcare & Herbal Research | Diagnostic Portal</p>
+        </footer>
     </div>
+
 </body>
 </html>

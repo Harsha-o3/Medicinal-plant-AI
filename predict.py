@@ -1,7 +1,7 @@
 from tensorflow.keras.models import load_model
 from tensorflow.keras.preprocessing import image
 import numpy as np
-from plant_info import plant_info
+from plant_info import BOTANICAL_DATA
 
 # Load model
 model = load_model("plant_classifier.h5")
@@ -43,7 +43,7 @@ class_labels = [
     "Papaya",
     "Periwinkle",
     "Ponytail palm palm",
-    "Queen  annes  lace",
+    "Queen annes lace",
     "Rauwolfia",
     "Rosemary",
     "Rubber plant",
@@ -76,7 +76,7 @@ def predict(img_path):
     print(f"\nPredicted plant: {plant_name}")
     print(f"Confidence: {confidence*100:.2f}%")
     print("\nPharmacological Information:")
-    print(plant_info.get(plant_name, "No info found"))
+    print(BOTANICAL_DATA.get(plant_name, "No info found"))
 
 # Run prediction
 predict(r"C:\Users\cheku\Desktop\medical pants\dataset\val\Ajwain\D2.jpg")  # Provide any plant image here

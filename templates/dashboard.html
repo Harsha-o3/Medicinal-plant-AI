@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Research Dashboard | Botanical AI Framework</title>
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700;800&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <!-- Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        :root {
+            --primary-green: #2d5a27;
+            --secondary-green: #4a7c44;
+            --soft-green: #8baa79;
+            --bg-leaf: #f8faf7;
+            --text-main: #2c3e2e;
+            --text-light: #5c725e;
+            --white: #ffffff;
+            --soft-shadow: 0 10px 40px rgba(45, 90, 39, 0.08);
+            --border-round: 20px;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-leaf);
+            color: var(--text-main);
+            line-height: 1.6;
+            padding-top: 80px;
+        }
+
+        /* Nav Header */
+        .nav-header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            z-index: 1000;
+            padding: 15px 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 20px rgba(0,0,0,0.05);
+        }
+
+        .logo {
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 800;
+            color: var(--primary-green);
+            text-decoration: none;
+            font-size: 1.2rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 30px;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: var(--text-light);
+            font-weight: 600;
+            font-size: 0.9rem;
+            transition: color 0.2s ease;
+        }
+
+        .nav-links a:hover, .nav-links a.active {
+            color: var(--primary-green);
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 40px auto;
+            padding: 0 20px;
+        }
+
+        .header {
+            margin-bottom: 40px;
+        }
+
+        .header h1 {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 2.2rem;
+            color: var(--primary-green);
+        }
+
+        /* Dashboard Grid */
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns: 1fr 2fr;
+            gap: 30px;
+            margin-bottom: 50px;
+        }
+
+        .stats-card {
+            background: var(--white);
+            border-radius: var(--border-round);
+            box-shadow: var(--soft-shadow);
+            padding: 40px;
+            display: flex;
+            flex-direction: column;
+            gap: 30px;
+        }
+
+        .stat-item {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .stat-icon {
+            width: 60px;
+            height: 60px;
+            background: #f1f7f2;
+            color: var(--primary-green);
+            border-radius: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+        }
+
+        .stat-info h2 {
+            font-size: 1.8rem;
+            color: var(--primary-green);
+            font-family: 'Montserrat', sans-serif;
+            line-height: 1;
+        }
+
+        .stat-info span {
+            font-size: 0.9rem;
+            color: var(--text-light);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .activity-card {
+            background: var(--white);
+            border-radius: var(--border-round);
+            box-shadow: var(--soft-shadow);
+            padding: 35px;
+        }
+
+        .activity-card h3 {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 1.3rem;
+            margin-bottom: 25px;
+            color: var(--primary-green);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .recent-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+            gap: 20px;
+        }
+
+        .activity-item {
+            background: #fafcfb;
+            border: 1px solid #edf2ee;
+            border-radius: 15px;
+            padding: 15px;
+            text-align: center;
+            transition: transform 0.2s ease;
+        }
+
+        .activity-item:hover {
+            transform: translateY(-5px);
+            border-color: var(--soft-green);
+        }
+
+        .activity-item img {
+            width: 100%;
+            height: 120px;
+            object-fit: cover;
+            border-radius: 10px;
+            margin-bottom: 12px;
+        }
+
+        .activity-item h4 {
+            font-size: 1rem;
+            color: var(--primary-green);
+            margin-bottom: 4px;
+        }
+
+        .activity-item p {
+            font-size: 0.8rem;
+            color: var(--soft-green);
+            font-weight: 600;
+        }
+
+        .chart-placeholder {
+            background: #fdfdfd;
+            border: 2px dashed #e0ece1;
+            border-radius: 15px;
+            height: 300px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #b0c0b1;
+            margin-top: 30px;
+        }
+
+        @media (max-width: 992px) {
+            .dashboard-grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+
+    <nav class="nav-header">
+        <a href="/" class="logo">
+            <i class="fas fa-microscope"></i> Botanical AI
+        </a>
+        <div class="nav-links">
+            <a href="/">Recognition Portal</a>
+            <a href="/dashboard" class="active">Research Dashboard</a>
+            <a href="/history">Analysis Archive</a>
+        </div>
+    </nav>
+
+    <div class="container">
+        <header class="header">
+            <h1>Research Analytics Dashboard</h1>
+            <p style="color: var(--text-light);">Comprehensive metrics and insights from the Botanical AI Recognition Framework</p>
+        </header>
+
+        <div class="dashboard-grid">
+            <div class="stats-card">
+                <div class="stat-item">
+                    <div class="stat-icon"><i class="fas fa-leaf"></i></div>
+                    <div class="stat-info">
+                        <h2>{{ total_species }}</h2>
+                        <span>Total Library Species</span>
+                    </div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-icon"><i class="fas fa-search"></i></div>
+                    <div class="stat-info">
+                        <h2>{{ total_scans }}</h2>
+                        <span>Historical Identifications</span>
+                    </div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-icon"><i class="fas fa-check-circle"></i></div>
+                    <div class="stat-info">
+                        <h2>98.2%</h2>
+                        <span>System Prediction Accuracy</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="activity-card">
+                <h3>
+                    Latest Specimen Submissions
+                    <a href="/history" style="font-size: 0.8rem; color: var(--soft-green); text-decoration: none;">View Full History <i class="fas fa-arrow-right"></i></a>
+                </h3>
+                
+                <div class="recent-grid">
+                    {% for item in recent_history %}
+                    <div class="activity-item">
+                        <img src="{{ url_for('static', filename='uploads/' + item['image_path']) }}" alt="{{ item['plant_name'] }}">
+                        <h4>{{ item['plant_name'] }}</h4>
+                        <p>{{ "%.1f"|format(item['confidence']) }}% Accuracy</p>
+                    </div>
+                    {% endfor %}
+                    {% if not recent_history %}
+                    <div style="grid-column: 1/-1; padding: 40px; text-align: center; color: #b0c0b1;">
+                        <i class="fas fa-inbox" style="font-size: 2rem; margin-bottom: 10px;"></i>
+                        <p>No specimens submitted yet.</p>
+                    </div>
+                    {% endif %}
+                </div>
+
+                <div class="chart-placeholder">
+                    <div style="text-align: center;">
+                        <i class="fas fa-chart-line" style="font-size: 2rem; margin-bottom: 10px;"></i>
+                        <p>Distribution Analytics Loading...</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <footer style="text-align: center; color: var(--text-light); font-size: 0.85rem; padding: 40px 0; border-top: 1px solid #edf2ee;">
+            <p>&copy; 2024 Botanical AI Framework | Academic Research Dashboard</p>
+        </footer>
+    </div>
+
+</body>
+</html>

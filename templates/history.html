@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Analysis History | Botanical AI Framework</title>
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700;800&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <!-- Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        :root {
+            --primary-green: #2d5a27;
+            --secondary-green: #4a7c44;
+            --soft-green: #8baa79;
+            --bg-leaf: #f8faf7;
+            --text-main: #2c3e2e;
+            --text-light: #5c725e;
+            --white: #ffffff;
+            --soft-shadow: 0 10px 40px rgba(45, 90, 39, 0.08);
+            --border-round: 20px;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-leaf);
+            color: var(--text-main);
+            line-height: 1.6;
+            padding: 80px 20px 40px;
+        }
+
+        /* Nav Header */
+        .nav-header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            z-index: 1000;
+            padding: 15px 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 20px rgba(0,0,0,0.05);
+        }
+
+        .logo {
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 800;
+            color: var(--primary-green);
+            text-decoration: none;
+            font-size: 1.2rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 30px;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: var(--text-light);
+            font-weight: 600;
+            font-size: 0.9rem;
+            transition: color 0.2s ease;
+        }
+
+        .nav-links a:hover, .nav-links a.active {
+            color: var(--primary-green);
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 60px;
+        }
+
+        .header h1 {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 2.5rem;
+            color: var(--primary-green);
+            margin-bottom: 10px;
+        }
+
+        .header p {
+            color: var(--text-light);
+            font-size: 1.1rem;
+        }
+
+        .nav-back {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            text-decoration: none;
+            color: var(--primary-green);
+            font-weight: 600;
+            margin-bottom: 30px;
+            transition: transform 0.2s ease;
+        }
+
+        .nav-back:hover {
+            transform: translateX(-5px);
+        }
+
+        /* History Grid */
+        .history-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 30px;
+        }
+
+        .history-card {
+            background: var(--white);
+            border-radius: var(--border-round);
+            box-shadow: var(--soft-shadow);
+            overflow: hidden;
+            transition: all 0.3s ease;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .history-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 15px 45px rgba(45, 90, 39, 0.12);
+        }
+
+        .card-img-wrapper {
+            height: 200px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .card-img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+
+        .history-card:hover .card-img {
+            transform: scale(1.1);
+        }
+
+        .confidence-tag {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background: rgba(45, 90, 39, 0.9);
+            color: white;
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+
+        .card-content {
+            padding: 25px;
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .card-content h3 {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 1.4rem;
+            color: var(--primary-green);
+            margin-bottom: 5px;
+        }
+
+        .scientific-name {
+            font-style: italic;
+            color: var(--soft-green);
+            font-size: 0.95rem;
+            margin-bottom: 15px;
+            display: block;
+        }
+
+        .timestamp {
+            font-size: 0.8rem;
+            color: #b0c0b1;
+            margin-top: auto;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        /* Empty State */
+        .empty-state {
+            text-align: center;
+            padding: 100px 20px;
+            background: var(--white);
+            border-radius: var(--border-round);
+            box-shadow: var(--soft-shadow);
+        }
+
+        .empty-state i {
+            font-size: 4rem;
+            color: #e0ece1;
+            margin-bottom: 20px;
+        }
+
+        .empty-state h2 {
+            color: var(--text-light);
+            margin-bottom: 15px;
+        }
+
+        .btn-start {
+            background: var(--primary-green);
+            color: var(--white);
+            padding: 12px 30px;
+            border-radius: 50px;
+            text-decoration: none;
+            display: inline-block;
+            margin-top: 20px;
+            font-weight: 600;
+        }
+
+        @media (max-width: 600px) {
+            .history-grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+
+    <nav class="nav-header">
+        <a href="/" class="logo">
+            <i class="fas fa-microscope"></i> Botanical AI
+        </a>
+        <div class="nav-links">
+            <a href="/">Recognition Portal</a>
+            <a href="/dashboard">Research Dashboard</a>
+            <a href="/history" class="active">Analysis History</a>
+        </div>
+    </nav>
+
+    <div class="container">
+        <header class="header">
+            <h1>Analysis History</h1>
+            <p>Historical record of medicinal plant specimens identified by the framework</p>
+        </header>
+
+        {% if history %}
+            <div class="history-grid">
+                {% for item in history %}
+                    <div class="history-card">
+                        <div class="card-img-wrapper">
+                            <img src="{{ url_for('static', filename='uploads/' + item['image_path']) }}" alt="{{ item['plant_name'] }}" class="card-img">
+                            <div class="confidence-tag">{{ "%.1f"|format(item['confidence']) }}% Match</div>
+                        </div>
+                        <div class="card-content">
+                            <h3>{{ item['plant_name'] }}</h3>
+                            <span class="scientific-name">{{ item['scientific_name'] }}</span>
+                            
+                            <div class="timestamp">
+                                <i class="far fa-calendar-alt"></i>
+                                {{ item['timestamp'] }}
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        {% else %}
+            <div class="empty-state">
+                <i class="fas fa-folder-open"></i>
+                <h2>No specimens found in archive</h2>
+                <p>Start identifying plants to build your diagnostic history.</p>
+                <a href="/" class="btn-start">Identify First Specimen</a>
+            </div>
+        {% endif %}
+
+        <footer style="text-align: center; margin-top: 80px; color: var(--text-light); font-size: 0.9rem; opacity: 0.6;">
+            <p>Botanical AI Framework | Systematic Research History</p>
+        </footer>
+    </div>
+
+</body>
+</html>
